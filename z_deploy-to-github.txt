@@ -1,0 +1,7 @@
+git pull
+
+git push origin master
+
+ng build --prod --base-href="https://devtoju.github.io/lernplattform-demo/"
+
+ngh --dir dist/lernplattform

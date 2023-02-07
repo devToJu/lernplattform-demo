@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+    <a class="navbar-brand"
+        routerLink="/">
+        Lernplattform
+    </a>
+    
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item"
+                *ngIf="isLoggedIn() && isTeacher()">
+                <a class="nav-link" routerLink="/aufgaben-karte">Aufgabe erstellen</a>
+            </li>
+
+            <li ngbDropdown
+                class="nav-item dropdown"    
+                for="kursDropdown"
+                *ngIf="isLoggedIn()">
+                
+                <a ngbDropdownToggle
+                    name="kursDropdown"
+                    class="nav-link dropdown-toggle"
+                    id="dropdown01"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                    Kurse
+                </a>
+
+                <div ngbDropdownMenu
+                    class="dropdown-menu"
+                    daria-labelledby="dropdown01">
+                    <a class="dropdown-item" [routerLink]="['/kurs', 'En401']">Englisch En401</a>
+                    <a class="dropdown-item" [routerLink]="['/kurs', 'Sp322']">Spanisch Sp322</a>
+                    <a class="dropdown-item" [routerLink]="['/kurs', 'It101']">Italienisch It101</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- <button (click)="getCurrentUser()">TEST</button> -->
+
+    <button class="btn btn-outline-success my-2 my-sm-0"
+        [hidden]="isLoggedIn()"
+        type="submit"
+        routerLink="/login">Login</button>
+
+    <button class="btn btn-outline-success my-2 my-sm-0"
+        [hidden]="!isLoggedIn()"
+        (click)="logout()"
+        type="submit"
+        routerLink="/">Logout</button>
+</nav>

@@ -1,0 +1,102 @@
+<form #f="ngForm" (ngSubmit)="submit(f)" [hidden]="!isVisibleAufgabeErstellen">
+  <div class="form-group">
+    <label for="ueberschrift">Überschrift</label>
+    <input required ngModel #ueberschrift="ngModel" name="ueberschrift" id="ueberschrift" type="text"
+      class="form-control">
+    <div *ngIf="ueberschrift.touched && !ueberschrift.valid" class="alert alert-danger">
+      Überschrift darf nicht leer sein
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="beschreibung">Beschreibung</label>
+    <textarea ngModel #beschreibung="ngModel" name="beschreibung" id="beschreibung" class="form-control" rows="3">
+        </textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="art">Aufgabenart</label>
+    <select ngModel #art="ngModel" name="art" id="art" class="form-control">
+      <option></option>
+      <option>Lückentext</option>
+      <option>Multiple Choice</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="typ">Such-Eigenschaften</label>
+    <small class="text-muted"> (Multiselektion: STRG + Mausklick)</small>
+    <select multiple ngModel #typ="ngModel" name="typ" class="form-control" id="typ">
+      <option>Grammar</option>
+      <option>Vocabulary</option>
+      <option>Irregular Verbs</option>
+      <option>Simple Past</option>
+      <option>Simple Present</option>
+    </select>
+  </div>
+  <br>
+  <button class="btn btn-primary" [disabled]="!f.valid || art.value==''">Aufgabe erstellen</button>
+</form>
+
+<div [hidden]="!isVisibleAufgabeLueckentext">
+  <form #fl="ngForm" (ngSubmit)="addPart(fl)">
+    <div class="form-group">
+      <label for="vorl">Vor der Lücke</label>
+      <input ngModel #vorLuecke="ngModel" name="vorLuecke" id="vorl" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="l">Lücke / Lösung</label>
+      <input ngModel #luecke="ngModel" name="luecke" id="l" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="nachl">Nach der Lücke</label>
+      <input ngModel #nachLuecke="ngModel" name="nachLuecke" id="nachl" type="text" class="form-control">
+    </div>
+    <button class="btn btn-primary">Lückentext hinzufügen</button>
+  </form>
+
+  <br>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header">
+      <h4 class="my-0 font-weight-normal">{{ formData.ueberschrift }}</h4>
+      <span *ngFor="let tag of formData.typ" class="badge badge-secondary tags">{{ tag }}</span>
+    </div>
+    <div class="card-body">
+      <p>{{ formData.beschreibung }}</p>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+      <h6 class="border-bottom border-gray pb-2 mb-0">Teilaufgabe</h6>
+
+      <div *ngFor="let part of teilaufgaben" class="media text-muted pt-3">
+        <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" role="img" aria-label="Placeholder: 32x32"
+          preserveAspectRatio="xMidYMid slice" focusable="false">
+          <title>Placeholder</title>
+          <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+        </svg>
+
+        <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+          <div class="d-flex justify-content-between align-items-center w-100">
+            <p>
+              {{ part.vorLuecke + " " }}
+              <span class="badge badge-secondary">{{ part.luecke }}</span>
+              {{ part.nachLuecke }}
+            </p>
+            <a>X</a>
+          </div>
+        </div>
+      </div>
+
+      <small class="d-block text-right mt-3">
+        <a href="#">Alle löschen</a>
+      </small>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<button class="btn btn-primary" [hidden]="isVisibleAufgabeErstellen" (click)="aufgabeSpeichern()">Aufgabe speichern</button>

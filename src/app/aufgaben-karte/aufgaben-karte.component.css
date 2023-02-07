@@ -1,0 +1,14 @@
+p {
+    margin-right: 5px;
+}
+
+/* # == id */
+#rahmen {
+    border-radius: 5px;
+    border: black solid 2px;
+}
+
+/* . == Class */
+.tags {
+    margin-left: 5px;
+}
